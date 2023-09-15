@@ -1,0 +1,314 @@
+ <mujoco model="bipedal">
+  <compiler angle="degree" coordinate="local"/>
+  <!--compiler>
+  <lengthrange mode='none'/>
+  </compiler-->
+  <default>
+    <joint armature="0.01" damping=".1" limited="true"/>
+    <geom conaffinity="0" condim="3" contype="1" density="1000" friction="2.5 0.1 0.1" rgba="0.8 0.6 .4 1"solimp="0.99 0.99 0.01"solref="0.01 1"/>
+  </default>
+  <option integrator="Euler" timestep="0.00125"/>
+  <asset>
+        <texture builtin="gradient" height="100" rgb1="1 1 1" rgb2="0 0 0" type="skybox" width="100"/>
+        <texture builtin="flat" height="1278" mark="cross" markrgb="1 1 1" name="texgeom" random="0.01" rgb1="0.8 0.6 0.4" rgb2="0.8 0.6 0.4" type="cube" width="127"/>
+        <texture builtin="checker" height="100" name="texplane" rgb1="0 0 0" rgb2="0.8 0.8 0.8" type="2d" width="100"/>
+        <material name="MatPlane" reflectance="0.5" shininess="1" specular="1" texrepeat="240 1.5" texture="texplane"/>
+        <material name="geom" texture="texgeom" texuniform="true"/>
+  </asset>
+  <worldbody>
+    <light cutoff="30" diffuse="1 1 1" dir="-0 0 -1.3" directional="true" exponent="1" pos="0 0 1.3" specular=".1 .1 .1"/>
+    <geom friction="1" conaffinity="1" condim="3" name="floor" pos="0 0 0" rgba="0.8 0.9 0.8 1" size="80 0.5 40" type="plane" material="MatPlane"/>
+    
+      <body name="camera" pos="0. -3.0 0">   
+      <camera name="track" mode="trackcom" pos="0 0 0.765" xyaxes="1 0 0 0 0 1"/>
+      <joint armature="0" axis="1 0 0" damping="0" limited="false" name="camerax" pos="0 0 0" type="slide"/>
+      <geom friction="0.9" name="camera_geom" pos="-0.3 0 0" size="0.05" type="sphere" mass="0.000001" rgba='0.5 0.5 0.5 1'/>
+      </body>
+          
+
+      <body name="center" pos="0 0 0.772">  
+      <geom friction="1" name="center_geom"  pos="0 0 0" type="sphere" mass="0.1" size='0.001'/>
+      <!--joint axis="0 1 0" stiffness="0" damping="0" armature="0" limited="true" range="-60 60" name="torso_joint" pos="0 0 0" type="hinge"/-->
+      <camera name="track2" mode="trackcom" pos="0 -2.8 -0.2" xyaxes="1 0 0 0 0 1"/>
+      <joint armature="0" axis="1 0 0" damping="0" limited="false" name="rootx" pos="0 0 0" type="slide"/>
+      <joint armature="0" axis="0 0 1" damping="0" limited="false" name="rootz" pos="0 0 0" type="slide"/>
+      <!--joint armature="0" axis="0 1 0" damping="0" limited="false" name="rooty" pos="0 0 0" stiffness="0" type="hinge"/-->
+      <site name="s_hip" pos="0 0 0" size="0.005"/>
+
+      <body name="hat1" pos="0 0 0">  
+      <geom friction="1" name="hat_geom"  pos="0 0 0.32" type="box" mass="42.8" size='0.05 0.05 0.32' rgba="0.6 0.5 .3 1"/>
+      <joint armature="0.1" axis="0 1 0" damping="0" limited="true" range="-10 30" name="torso_joint" pos="0 0 0" stiffness="0" type="hinge"/>
+      <geom friction="1" name="hip_geom"  pos="0 0 0" type="cylinder" mass="0" size='0.072' fromto='0 -0.2 0 0 0.2 0' rgba="0.8 0.5 .3 1"/>
+      <site name="s_hip_front" pos="0.08 -0.15 0.05" size="0.005"/>
+      <site name="s_hip_back" pos="-0.08 -0.15 0.05" size="0.005"/>
+      <site name="s_left_hip_front" pos="0.08 0.15 0.05" size="0.005"/>
+      <site name="s_left_hip_back" pos="-0.08 0.15 0.05" size="0.005"/>
+      <site name="s_hip_front2" pos="0.064 -0.15 -0.05" size="0.005"/>
+      <site name="s_hip_back2" pos="-0.064 -0.15 -0.05" size="0.005"/>
+      <site name="s_left_hip_front2" pos="0.064 0.15 -0.05" size="0.005"/>
+      <site name="s_left_hip_back2" pos="-0.064 0.15 -0.05" size="0.005"/>
+      <site name="s_hip_front3" pos="0.3 -0.15 -0.3" size="0.005" group="1"/>
+      <site name="s_hip_back3" pos="-0.3 -0.15 -0.3" size="0.005" group="1"/>
+      <site name="s_left_hip_front3" pos="0.3 0.15 -0.3" size="0.005" group="1"/>
+      <site name="s_left_hip_back3" pos="-0.3 0.15 -0.3" size="0.005" group="1"/>
+
+      </body>
+
+        <body name='thigh' pos='0 -0.15 -0.'>
+        <geom friction="1" pos="0 0 -0.2" name="thigh_geom" size="0.036 0.036 0.2" type="box" mass="6.8" />
+        <joint axis="0 -1 0" stiffness="0" damping="1" armature="0.2" limited="true" range="-90 90" name="hip_joint" pos="0 0 0" type="hinge"/>
+        <site name="s_thigh" pos="0 0 -0.16" size="0.005"/>
+        <site name="s_thigh_front_upper" pos="0.036 0 -0.12" size="0.005"/>
+        <site name="s_thigh_back_upper" pos="-0.036 0 -0.144" size="0.005"/>
+        <site name="s_thigh_front_bottom" pos="0.036 0 -0.24" size="0.005"/>
+        <site name="s_thigh_back_bottom" pos="-0.036 0 -0.36" size="0.005"/>
+        <geom friction="1" name="knee_geom" type="cylinder" size="0.044" mass="0" fromto='0 -0.045 -0.4 0 0.045 -0.4' group='1'/>
+        <site name="s_knee_front" pos="0.09 0 -0.4" size="0.005" group='1'/>
+        <site name="s_knee_back" pos="-0.09 0 -0.4" size="0.005" group='1'/>
+
+        <body name="shank" pos="0 0 -0.4">
+        <geom friction="1" pos="0 0 -0.18" name="shank_geom" type="box" size="0.024 0.024 .18" mass="2.8"/>
+        <joint axis="0 -1 0" stiffness="0" damping="1" armature="0.2" limited="true" range="-135 0" name="knee_joint" pos="0 0 0" type="hinge"/>
+        <site name="s_knee" pos="0 0 0" size="0.005"/>
+        <site name="s_shank_front_upper" pos="0.024 0 -0.08" size="0.005"/>
+        <site name="s_shank_back_upper" pos="-0.024 0 -0.056" size="0.005"/>
+        <site name="s_shank_front_bottom" pos="0.024 0 -0.2" size="0.005"/>
+        <site name="s_shank_back_bottom" pos="-0.024 0 -0.144" size="0.005"/>
+
+        <body name="foot" pos="0 0 -0.32">
+        <joint axis="0 -1 0" stiffness="0" damping="1" armature="0.2" limited="true" range="-40 20" name="ankle_joint" pos="0 0 0" type="hinge"/>
+        <site name="s_ankle" pos="0 0 0" size="0.011"/>
+        <site name="s_ankle_forward" pos="0.04 0 0" size="0.005"/>
+        <geom friction="2.5 0.005 0.0001" name="right_heel_geom" type="cylinder" size="0.016" fromto="-0.04 -0.05 -0.032 -0.04 0.05 -0.032" mass="0.16"/>
+        <site name="s_heel" pos="-0.056 0 -0.03" size="0.011"/>
+        <site name="s_mid" pos="0.04 0 -0.016" size="0.011"/>
+        <geom friction="2.5 0.005 0.0001" name="right_foot_geom" type="box" pos="0.008 0 -0.032" size="0.048 0.05 0.016" mass="0.64"/>
+        
+        <body name="toe" pos="0.10 0 -0.04">
+        <site name="s_toe" pos="0 0 0" size="0.011"/>
+        <geom friction="2.5 0.005 0.0001" name="right_toe_geom" type="box" pos="-0.021 0 0" size="0.021 0.05 0.008" mass="0.2"/>
+        <joint axis="0 -1 0" stiffness="30" damping="0" armature="0.2" limited="true" range="0 20" name="toe_joint" pos="-0.042 0 0.0" type="hinge"/>
+        
+        </body>
+        </body>
+        </body>
+        </body>
+        
+        <body name='left_thigh' pos='0 0.15 -0.'>
+        <geom friction="1" pos="0 0 -0.2" name="left_thigh_geom" size="0.036 0.036 0.2" type="box" mass="6.8" rgba="0.95 0.6 .4 1"/>
+        <joint axis="0 -1 0" stiffness="0" damping="1" armature="0.2" limited="true" range="-90 90" name="left_hip_joint" pos="0 0 0" type="hinge"/>
+        <site name="s_left_thigh" pos="0 0 -0.16" size="0.005"/>
+        <site name="s_left_thigh_front_upper" pos="0.036 0 -0.12" size="0.005"/>
+        <site name="s_left_thigh_back_upper" pos="-0.036 0 -0.144" size="0.005"/>
+        <site name="s_left_thigh_front_bottom" pos="0.036 0 -0.24" size="0.005"/>
+        <site name="s_left_thigh_back_bottom" pos="-0.036 0 -0.36" size="0.005"/>
+        <geom friction="1" name="left_knee_geom" type="cylinder" size="0.044" mass="0" fromto='0 -0.045 -0.4 0 0.045 -0.4' group='1' rgba="0.95 0.6 .4 1"/>
+        <site name="s_left_knee_front" pos="0.09 0 -0.4" size="0.005" group='1'/>
+        <site name="s_left_knee_back" pos="-0.09 0 -0.4" size="0.005" group='1'/>
+        
+        <body name="left_shank" pos="0 0 -0.4">
+        <geom friction="1" pos="0 0 -.18" name="left_shank_geom" type="box" size="0.024 0.024 .18" mass="2.8" rgba="0.95 0.6 .4 1"/>
+        <joint axis="0 -1 0" stiffness="0" damping="1" armature="0.2" limited="true" range="-135 0" name="left_knee_joint" pos="0 0 0" type="hinge"/>
+        <site name="s_left_knee" pos="0 0 0" size="0.005"/>
+        <site name="s_left_shank_front_upper" pos="0.024 0 -0.08" size="0.005"/>
+        <site name="s_left_shank_back_upper" pos="-0.024 0 -0.056" size="0.005"/>
+        <site name="s_left_shank_front_bottom" pos="0.024 0 -0.2" size="0.005"/>
+        <site name="s_left_shank_back_bottom" pos="-0.024 0 -0.144" size="0.005"/>
+
+        <body name="left_foot" pos="0 0 -0.32">
+        <joint axis="0 -1 0" stiffness="0" damping="1" armature="0.2" limited="true" range="-40 20" name="left_ankle_joint" pos="0 0 0" type="hinge"/>
+        <site name="s_left_ankle" pos="0 0 0" size="0.011"/>
+        <site name="s_left_ankle_forward" pos="0.04 0 0" size="0.005"/>
+        <geom friction="2.5 0.005 0.0001" name="left_heel_geom" type="cylinder" size="0.016" fromto="-0.04 -0.05 -0.032 -0.04 0.05 -0.032" mass="0.16" rgba="0.95 0.6 .4 1"/>
+        <site name="s_left_heel" pos="-0.056 0 -0.03" size="0.011"/>
+        <site name="s_left_mid" pos="0.04 0 -0.016" size="0.011"/>
+        <geom friction="2.5 0.005 0.0001" name="left_foot_geom" type="box" pos="0.008 0 -0.032" size="0.048 0.05 0.016" mass="0.64" rgba="0.95 0.6 .4 1"/>
+        
+        <body name="left_toe" pos="0.10 0 -0.04">
+        <site name="s_left_toe" pos="0 0 0" size="0.011"/>
+        <geom friction="2.5 0.005 0.0001" name="left_toe_geom" type="box" pos="-0.021 0 0" size="0.021 0.05 0.008" mass="0.2" rgba="0.95 0.6 .4 1"/>
+        <joint axis="0 -1 0" stiffness="30" damping="0" armature="0.2" limited="true" range="0 20" name="left_toe_joint" pos="-0.042 0 0.0" type="hinge"/>
+
+        </body>
+        </body>
+        </body>
+        </body>
+
+    </body>
+  </worldbody>
+  
+  <sensor>
+    <actuatorfrc name="HFL_F" actuator="HFL"/>
+    <actuatorfrc name="GLU_F" actuator="GLU"/>
+    <actuatorfrc name="VAS_F" actuator="VAS"/>
+    <actuatorfrc name="SOL_F" actuator="SOL"/>
+    <actuatorfrc name="GAS_F" actuator="GAS"/>
+    <actuatorfrc name="TA_F" actuator="TA"/>
+    <actuatorfrc name="HAM_F" actuator="HAM"/>
+    <actuatorfrc name="RF_F" actuator="RF"/>
+
+    <actuatorfrc name="L_HFL_F" actuator="L_HFL"/>
+    <actuatorfrc name="L_GLU_F" actuator="L_GLU"/>
+    <actuatorfrc name="L_VAS_F" actuator="L_VAS"/>
+    <actuatorfrc name="L_SOL_F" actuator="L_SOL"/>
+    <actuatorfrc name="L_GAS_F" actuator="L_GAS"/>
+    <actuatorfrc name="L_TA_F" actuator="L_TA"/>
+    <actuatorfrc name="L_HAM_F" actuator="L_HAM"/>
+    <actuatorfrc name="L_RF_F" actuator="L_RF"/>
+
+    <tendonpos name="HFL_length" tendon="HFL"/>
+    <tendonpos name="GLU_length" tendon="GLU"/>
+    <tendonpos name="VAS_length" tendon="VAS"/>
+    <tendonpos name="SOL_length" tendon="SOL"/>
+    <tendonpos name="GAS_length" tendon="GAS"/>
+    <tendonpos name="TA_length" tendon="TA"/>
+    <tendonpos name="HAM_length" tendon="HAM"/>
+    <tendonpos name="RF_length" tendon="RF"/>
+
+    <tendonpos name="L_HFL_length" tendon="L_HFL"/>
+    <tendonpos name="L_GLU_length" tendon="L_GLU"/>
+    <tendonpos name="L_VAS_length" tendon="L_VAS"/>
+    <tendonpos name="L_SOL_length" tendon="L_SOL"/>
+    <tendonpos name="L_GAS_length" tendon="L_GAS"/>
+    <tendonpos name="L_TA_length" tendon="L_TA"/>
+    <tendonpos name="L_HAM_length" tendon="L_HAM"/>
+    <tendonpos name="L_RF_length" tendon="L_RF"/>
+    
+    <tendonvel name="HFL_vel" tendon="HFL"/>
+    <tendonvel name="GLU_vel" tendon="GLU"/>
+    <tendonvel name="VAS_vel" tendon="VAS"/>
+    <tendonvel name="SOL_vel" tendon="SOL"/>
+    <tendonvel name="GAS_vel" tendon="GAS"/>
+    <tendonvel name="TA_vel" tendon="TA"/>
+    <tendonvel name="HAM_vel" tendon="HAM"/>
+    <tendonvel name="RF_vel" tendon="RF"/>
+
+    <tendonvel name="L_HFL_vel" tendon="L_HFL"/>
+    <tendonvel name="L_GLU_vel" tendon="L_GLU"/>
+    <tendonvel name="L_VAS_vel" tendon="L_VAS"/>
+    <tendonvel name="L_SOL_vel" tendon="L_SOL"/>
+    <tendonvel name="L_GAS_vel" tendon="L_GAS"/>
+    <tendonvel name="L_TA_vel" tendon="L_TA"/>
+    <tendonvel name="L_HAM_vel" tendon="L_HAM"/>
+    <tendonvel name="L_RF_vel" tendon="L_RF"/>
+  </sensor>
+  
+
+  <!--"geer" here is the maximum output of the actuator-->>
+  <actuator>
+    <muscle tendon = "HFL" ctrllimited="true" ctrlrange='0 1' force='2000' name = "HFL" lengthrange="0.11 0.31"/>
+    <muscle tendon = "GLU" ctrllimited="true" ctrlrange="0 1" force="1500" name = "GLU" lengthrange="0.13 0.33"/>
+    <muscle tendon = "VAS" ctrllimited="true" ctrlrange="0 1" force="6000" name = "VAS" lengthrange="0.23 0.38"/>
+    <muscle tendon = "SOL" ctrllimited="true" ctrlrange="0 1" force="4000" name = "SOL" lengthrange="0.22 0.32"/>
+    <muscle tendon = "GAS" ctrllimited="true" ctrlrange="0 1" force="1500" name = "GAS" lengthrange="0.4 0.56"/>
+    <muscle tendon = "TA" ctrllimited="true" ctrlrange="0 1" force="800" name = "TA" lengthrange="0.12 0.24"/>
+    <muscle tendon = "HAM" ctrllimited="true" ctrlrange="0 1" force="3000" name = "HAM" lengthrange="0.37 0.67"/>
+    <muscle tendon = "RF" ctrllimited="true" ctrlrange="0 1" force="1000" name = "RF" lengthrange="0.6 0.8"/>
+    <muscle tendon = "L_HFL" ctrllimited="true" ctrlrange="0 1" force="2000" name = "L_HFL" lengthrange="0.11 0.31"/>
+    <muscle tendon = "L_GLU" ctrllimited="true" ctrlrange="0 1" force="1500" name = "L_GLU" lengthrange="0.13 0.33"/>
+    <muscle tendon = "L_VAS" ctrllimited="true" ctrlrange="0 1" force="6000" name = "L_VAS" lengthrange="0.23 0.38"/>
+    <muscle tendon = "L_SOL" ctrllimited="true" ctrlrange="0 1" force="4000" name = "L_SOL" lengthrange="0.22 0.32"/>
+    <muscle tendon = "L_GAS" ctrllimited="true" ctrlrange="0 1" force="1500" name = "L_GAS" lengthrange="0.4 0.56"/>
+    <muscle tendon = "L_TA" ctrllimited="true" ctrlrange="0 1" force="800" name = "L_TA" lengthrange="0.12 0.24"/>
+    <muscle tendon = "L_HAM" ctrllimited="true" ctrlrange="0 1" force="3000" name = "L_HAM" lengthrange="0.37 0.67"/>
+    <muscle tendon = "L_RF" ctrllimited="true" ctrlrange="0 1" force="1000" name = "L_RF" lengthrange="0.6 0.8"/>
+
+  </actuator>
+
+  <tendon>
+        <spatial name="HFL" width="0.005" rgba='1 0 0 1'>
+            <site site="s_hip_front"/>
+            <geom geom="hip_geom" sidesite="s_hip_front3"/>
+            <site site="s_thigh_front_upper"/>
+        </spatial>
+
+        <spatial name="GLU" width="0.005" rgba='1 0 0 1'>
+            <site site="s_hip_back"/>
+            <geom geom="hip_geom" sidesite="s_hip_back3"/>
+            <site site="s_thigh_back_upper"/>
+        </spatial>
+        
+        <spatial name="VAS" width="0.005" rgba='1 0 0 1'>
+            <site site="s_thigh_front_bottom"/>
+            <geom geom="knee_geom" sidesite="s_knee_front"/>
+            <site site="s_shank_front_upper"/>
+        </spatial>
+
+        <spatial name="SOL" width="0.005" rgba='1 0 0 1'>
+            <site site="s_shank_back_bottom"/>
+            <site site="s_heel"/>
+        </spatial>
+
+        <spatial name="GAS" width="0.005" rgba='1 0 0 1'>
+            <site site="s_thigh_back_bottom"/>
+            <geom geom="knee_geom" sidesite="s_knee_back"/>
+            <site site="s_heel"/>
+        </spatial>
+
+        <spatial name="TA" width="0.005" rgba='1 0 0 1'>
+            <site site="s_shank_front_bottom"/>
+            <site site="s_mid"/>
+        </spatial>
+
+        <spatial name="HAM" width="0.005" rgba='1 0 0 1'>
+            <site site="s_hip_back2"/>
+            <geom geom="hip_geom" sidesite="s_hip_back3"/>
+            <site site="s_shank_back_upper"/>
+        </spatial>
+
+        <spatial name="RF" width="0.005" rgba='1 0 0 1'>
+            <site site="s_hip_front"/>
+            <geom geom="knee_geom" sidesite="s_knee_front"/>
+            <site site="s_shank_front_upper"/>
+        </spatial>
+
+
+
+        <spatial name="L_HFL" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_hip_front"/>
+            <geom geom="hip_geom" sidesite="s_left_hip_front3"/>
+            <site site="s_left_thigh_front_upper"/>
+        </spatial>
+
+        <spatial name="L_GLU" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_hip_back"/>
+            <geom geom="hip_geom" sidesite="s_left_hip_back3"/>
+            <site site="s_left_thigh_back_upper"/>
+        </spatial>
+
+        <spatial name="L_VAS" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_thigh_front_bottom"/>
+            <geom geom="left_knee_geom" sidesite="s_left_knee_front"/>
+            <site site="s_left_shank_front_upper"/>
+        </spatial>
+
+        <spatial name="L_SOL" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_shank_back_bottom"/>
+            <site site="s_left_heel"/>
+        </spatial>
+
+        <spatial name="L_GAS" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_thigh_back_bottom"/>
+            <geom geom="left_knee_geom" sidesite="s_left_knee_back"/>
+            <site site="s_left_heel"/>
+        </spatial>
+
+        <spatial name="L_TA" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_shank_front_bottom"/>
+            <site site="s_left_mid"/>
+        </spatial>
+
+        <spatial name="L_HAM" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_hip_back2"/>
+            <geom geom="hip_geom" sidesite="s_left_hip_back3"/>
+            <site site="s_left_shank_back_upper"/>
+        </spatial>
+
+        <spatial name="L_RF" width="0.005" rgba='1 0 0 1'>
+            <site site="s_left_hip_front"/>
+            <geom geom="left_knee_geom" sidesite="s_left_knee_front"/>
+            <site site="s_left_shank_front_upper"/>
+        </spatial>
+    </tendon>   
+    
+</mujoco>
