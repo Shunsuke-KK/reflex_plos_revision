@@ -24,6 +24,7 @@ You can find the Python implementation of the PWLS below.
 ```
 def PWLS(x, y, beta, degree):
     """
+    This function calculates the coefficients of polynomial that minimizes the weighted square error.
     x, y (NumPy array): These represent the data points. Please provide 1-dimensional NumPy arrays.
         e.g., x = np.array([0.0, 1.0, 2.5]), y = np.array([1.0, 0.5, 3.5])
 
@@ -35,20 +36,25 @@ def PWLS(x, y, beta, degree):
     x = x.reshape(-1, 1)
     y = y.reshape(-1, 1)
     beta = beta.reshape(-1, 1)
-
     B = np.hstack([beta]*(degree+1))
     X = np.empty((len(x),0))
     for i in range(0, degree+1):
         current_x = x ** i
         X = np.hstack((X, current_x))
-    # w_0*(x**0) + w_1*(x**1) + ... + w_m*(x**m)
     w = np.dot(np.dot(np.linalg.inv(np.dot((B*X).T, (B*X))), (B*X).T), beta*y)
+    w = w.reshape(-1)
+    # w_0*(x**0) + w_1*(x**1) + ... + w_m*(x**m)
+    return w
+```
+very simple code to depict the graph using the caluculated coefficients 
+```
+def f(x,w):
+    y = 0
+    for i, w in enumerate(w):
+        y += w * (x ** i)
+    return y
 
-    def f(x):
-        y = 0
-        for i, w in enumerate(w):
-            y += w * (x ** i)
-        return y
-
-    return f, w
+w_PWLS = PWLS(x, y, beta, 6)
+xlines = np.linspace(0, 10, 200)
+plt.plot(xlines, f(xlines,w_PWLS))
 ```
