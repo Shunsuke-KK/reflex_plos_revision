@@ -1,15 +1,5 @@
-# Folder Name
+This folder contains snapshots of generated gaits. We captured data every 0.25 s
 
-Describe briefly what this folder is for and how it should be used.
-
-## Installation
-
-If there are any specific steps or instructions required to use the contents of this folder, include them here.
-
-## Usage
-
-Explain what can be found inside this folder, how to use the contents, and any important details about its usage.
-
-## License
-
-Add licensing information if necessary.
+* "pic_090": when target velocity was 0.90 m/s
+* "pic_125": when target velocity was 1.25 m/s
+* "pic_160": when target velocity was 1.60 m/s
