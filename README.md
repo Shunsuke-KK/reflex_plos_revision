@@ -12,10 +12,10 @@ This page contains files related to the paper, "Identifying essential factors fo
 *  **reflex_opt**: main codes for optimizing parameters and running the results.
 
 # Important Package Versions for Troubleshooting Errors
-**MuJoCo**: mujoco200
-**mujoco-py**: 2.0.2.13
-**pandas**: 1.4.2
-matplotlib: 3.5.2
+*  **MuJoCo**: mujoco200
+*  **mujoco-py**: 2.0.2.13
+*  **pandas**: 1.4.2
+*  **matplotlib**: 3.5.2
 
 # Optimizing Control Parameters
 
