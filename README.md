@@ -19,7 +19,7 @@ This page contains files related to the paper, "Identifying essential factors fo
 
 # Optimizing Control Parameters
 
-# Performence-Weighted Least Square (PWLS)
+# Performence-Weighted Least Square (PWLS) method
 You can find the Python implementation of the PWLS below.
 ```
 def PWLS(x, y, beta, degree):
