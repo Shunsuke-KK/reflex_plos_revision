@@ -57,3 +57,7 @@ w_PWLS = PWLS(x, y, beta, 6)
 xlines = np.linspace(0, 10, 200)
 plt.plot(xlines, f(xlines,w_PWLS))
 ```
+
+Here, I provide detailed implementations using a simple example.
+
+![pwls_draft](https://github.com/Shunsuke-KK/reflex_plos_revision/assets/78842615/bc5d4146-5ebe-421e-b1ae-270ce0753b60){ width=50% }
