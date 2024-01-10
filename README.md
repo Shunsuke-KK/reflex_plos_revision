@@ -43,7 +43,6 @@ def PWLS(x, y, beta, degree):
         X = np.hstack((X, current_x))
     w = np.dot(np.dot(np.linalg.inv(np.dot((B*X).T, (B*X))), (B*X).T), beta*y)
     w = w.reshape(-1)
-    # w_0*(x**0) + w_1*(x**1) + ... + w_m*(x**m)
     return w
 ```
 then, you can depict the graph using the caluculated coefficients like this 
