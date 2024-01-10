@@ -46,7 +46,7 @@ def PWLS(x, y, beta, degree):
     # w_0*(x**0) + w_1*(x**1) + ... + w_m*(x**m)
     return w
 ```
-very simple code to depict the graph using the caluculated coefficients 
+then, you can depict the graph using the caluculated coefficients like this 
 ```
 def f(x,w):
     y = 0
