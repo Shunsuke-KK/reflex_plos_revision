@@ -60,4 +60,37 @@ plt.plot(xlines, f(xlines,w_PWLS))
 
 Here, I provide detailed implementations using a simple example.
 
-![pwls_draft](https://github.com/Shunsuke-KK/reflex_plos_revision/assets/78842615/bc5d4146-5ebe-421e-b1ae-270ce0753b60){ width=50% }
+we prepared dataset with weight (=beta) for each data point as follows;
+```
+x    = np.array([1,  1, 1, 2, 2,  2, 3, 3, 3,     4, 4, 4,  5, 5, 5,  6, 6, 6,    7, 7, 7, 8,  8, 8, 9, 9,  9])
+y    = np.array([1,  2, 3, 1, 2,  3, 1, 2, 3,     7, 8, 9,  7, 8, 9,  7, 8, 9,    4, 5, 6, 4,  5, 6, 4, 5,  6])
+beta = np.array([10, 1, 1, 1, 10, 1, 1, 1, 10,   10, 1, 1, 10, 1, 1, 10, 1, 1,   10, 1, 1, 1, 10, 1, 1, 1, 10])
+```
+where larger beta value indicate the corresponding data point is highly-evaluated.
+
+We can see this dataset visually through the graph as follows;
+![pwls_draft](https://github.com/Shunsuke-KK/reflex_plos_revision/assets/78842615/788c4074-7186-4bfa-af73-117fd8dd16ea)
+
+The following graph compares the calculated polynomials between the normal least square and PWLS. We can find that the calculated polynomial through PWLS passes close to higher-evaluated data points!!
+
+```
+def NormalLeastSquare(x, y, degree):
+    x = x.reshape(-1, 1)
+    y = y.reshape(-1, 1)
+    X = np.empty((len(x),0))
+    for i in range(0, degree+1):
+        current_x = x ** i
+        X = np.hstack((X, current_x))
+    w = np.dot(np.dot(np.linalg.inv(np.dot(X.T, X)), X.T), y)
+    w = w.reshape(-1)
+    return w
+
+w_PWLS = PWLS(x, y, beta, 6)
+w_NormalLS = NormalLeastSquare(x, y, 6)
+
+plt.plot(xlines, f(xlines,w_NormalLS), label='Normal Least Square')
+plt.plot(xlines, f(xlines,w_PWLS), label='PWLS')
+```
+
+![comparison](https://github.com/Shunsuke-KK/reflex_plos_revision/assets/78842615/48916aea-f38d-4477-8c9a-1ca87251ceb5)
+
