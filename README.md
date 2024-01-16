@@ -47,7 +47,7 @@ This page contains files related to the paper, "Identifying essential factors fo
     Then, $`v^{tar}_{x}`$ is slightly decreased to $`v^{tar}_{x}-\Delta v_{x}`$ and this process is also repeated until $`v^{tar}_{x}`$ reaches the lower limit of the target velocity, $`v^{tar}_{x\,min}`$. 
     The initial control parameters are set identically in both situation, which generates steady walking gait of 1.25 m/s.
 3. select `1` or `2` and press Enter
-4. an optimization launch, this process is saved to `reflex_opt/save_data/` as a .pickle file. For example, if you select `1` in the above, you would see the file named `\review_forw_new`, which contains `logger.pickle` and `vel_gen0.pickle`.
+4. an optimization launch, this process is saved to `reflex_opt/save_data/` as a .pickle file. For example, if you select `1` in the above, you would see the file named `reflex_opt/save_data/review_forw_new`, which contains `logger.pickle` and `vel_gen0.pickle`.
 5. you can run several programs in parallel to collect the data set efficiently.
 6. sometimes, the optimization is forced to terminate with the following message:
    ```
@@ -56,6 +56,45 @@ This page contains files related to the paper, "Identifying essential factors fo
    To re-start the optimization from the terminated point, please go to `reflex_opt/opt_forw.py` or `reflex_opt/opt_back.py`.
    Comment out "previous_data = False", which is around line 469, and make "previous_data = True".
    Then, please specify folder name that is stored in "/reflex_opt/save_data/~"
+
+
+# Run the Bipedal Model
+1. run `run.py`
+2. you would see
+    ```
+    Is there a saved pickle data??
+    If yes, please type "1"
+    >>
+    ```
+    because calculating optimized functions take a little long time, you can save the coefficients of optimized polynomial functions as described later.
+3. 1. if you do not select `1`:
+      the coefficients of polynomial are calculated using specified .pickle files, which are generated in `optimized.py`.
+      you can chage the dataset for optimization in `run.py`. In original setting, a prepared .pickle file is specified as follows.
+      ```
+      folder_name1 = 'review_back_1'
+      folder_name2 = 'review_forw_1'
+      ```
+      after the calculation of optimized polynomial functions, you would see
+      ```
+      save as a pickle data??\nIf yes, please input "1"
+      >>
+      ```
+      if you want to save, please press 1 and name the file after the following message.
+      ```
+      please name the save pickle file
+      >>
+      ```
+   2. if you select `1`:
+      input the .pickle file name after the following message:
+      ```
+      please type its name without ".pickle"
+      (sample: func_cost1_A1000000)
+      >>
+      ```
+4. If all goes fine, the bipeddal model is displayed as follows:
+![walking_control2](https://github.com/Shunsuke-KK/reflex_plos_revision/assets/78842615/f0b3f564-1564-4cd5-9ed8-b2aaa982086d)
+The walking speed can be controlled by sliding the control bar.
+It is not robust enough, please adjust the control bar carefully (reproduce more robust speed transitions is one of the important future work).
 
 # Performence-Weighted Least Square (PWLS) method
 You can find the Python implementation of the PWLS below (those who want to use PWLS shold use this, because codes in the paper maybe messy).
