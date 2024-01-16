@@ -461,7 +461,7 @@ def optimize_back(env):
     ***IMPORTANT***
     Sometimes the simulation process forced terminated with the following error message:
     "WARNING: Nan, Inf or huge value in QACC at DOF xx. The simulation is unstable. Time = <sim time value>"
-    To re-start the optimization from the terminated point, please comment out "previous_data = True" and make "previous_data = True"
+    To re-start the optimization from the terminated point, please comment out "previous_data = False" and make "previous_data = True"
     with specifying folder name that is stored in "/reflex_opt/save_data/~"
     '''
     previous_data = True
