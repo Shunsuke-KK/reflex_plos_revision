@@ -1,15 +1,26 @@
 # Overview
 
 This page contains files related to the paper, "Identifying essential factors for energyefficient walking control across a wide range of velocities in reflex-based musculoskeletal systems" 
-(https://doi.org/10.1371/journal.pcbi.1011771).
+(https://doi.org/10.1371/journal.pcbi.1011771), by S Koseki, M Hayashibe, and D Owaki.
 
-*  **assets**: musculoskeletal models.
-*  **cmaes**: cmaes (optimizing algorithm) codes. I used (https://pypi.org/project/cmaes/), and some functions were added for this study.
-*  **custom_env**: gym-like environment for musculoskeletal model is contained. The environments include reset function, step function, fall down detect function, sensory function, and so on.
-*  **func_data**: polynimial functions of control parameters.
-*  **graph**: graphs and their codes in the paper are here.
-*  **pic**: snapshots for different target velocities.
-*  **reflex_opt**: main codes for optimizing parameters and running the results.
+## folder
+*  `assets`: musculoskeletal models.
+*  `cmaes`: cmaes (optimizing algorithm) codes. I used (https://pypi.org/project/cmaes/), and some functions were added for this study.
+*  `custom_env`: gym-like environment for musculoskeletal model is contained. The environments include reset function, step function, fall down detect function, sensory function, and so on.
+*  `func_data`: polynimial functions of control parameters.
+*  `graph`: graphs and their codes in the paper are here.
+*  `pic`: snapshots for different target velocities.
+*  `reflex_opt`: main codes for optimizing parameters and running the results.
+
+## file
+*  `optimize.py`: collect dataset using the optimization (CMAES) algorithm.
+*  `optimize_costfunc.py`: collect dataset undeer the different weight coefficients in the objective cost function (different cost function).
+*  `optimize_shortleg.py`: collect dataset using the different bipedal model, where its segment lengths are shortened by 20% from the original (different body structure).
+*  `optimize_timedelay.py`: collect dataset with doubling the time delay of sensory information transmission to the controller (different neural system).
+*  `run.py`: run the simulation result using dataset obtained from the `optimize.py`.
+*  `run_costfunc.py`: run the simulation result using dataset obtained from the `optimize_costfunc.py`.
+*  `run_shortleg.py`: run the simulation result using dataset obtained from the `optimize_shortleg.py`.
+*  `run_timedelay.py`: run the simulation result using dataset obtained from the `optimize_timedelay.py`.
 
 # Important Package Versions for Troubleshooting Errors
 *  **MuJoCo**: mujoco200
@@ -18,9 +29,10 @@ This page contains files related to the paper, "Identifying essential factors fo
 *  **matplotlib**: 3.5.2
 
 # Optimizing Control Parameters
+1. run `optimize.py`
 
 # Performence-Weighted Least Square (PWLS) method
-You can find the Python implementation of the PWLS below.
+You can find the Python implementation of the PWLS below (those who want to use PWLS shold use this, because codes in the paper maybe messy).
 ```
 def PWLS(x, y, beta, degree):
     """
