@@ -21,6 +21,7 @@ This page contains files related to the paper, "Identifying essential factors fo
 *  `run_costfunc.py`: run the simulation result using dataset obtained from the `optimize_costfunc.py`.
 *  `run_shortleg.py`: run the simulation result using dataset obtained from the `optimize_shortleg.py`.
 *  `run_timedelay.py`: run the simulation result using dataset obtained from the `optimize_timedelay.py`.
+*  `optimization.depelope.py`: make the the graph of the optimization convergence curve, which is shown in the supplemantary material.
 
 # Important Package Versions for Troubleshooting Errors
 *  **MuJoCo**: mujoco200
@@ -30,6 +31,31 @@ This page contains files related to the paper, "Identifying essential factors fo
 
 # Optimizing Control Parameters
 1. run `optimize.py`
+2. you would see
+    ```
+    select 1 or 2:
+    1 (incrementary increase)
+    2 (incrementary decrease)
+    >>
+    ```
+    In `1`, initially, the target velocity, $`v^{tar}_{x}`$, in cost function $`f`$ (Eq (12)) is set to 1.3 m/s, which is the human selfselected speed. 
+    Control parameter set, that generate a gait around $`v^{tar}_{x}`$ are obtained.
+    Then, $`v^{tar}_{x}`$ is slightly increased to $`v^{tar}_{x}+\Delta v_{x}`$, and the corresponding control parameter set around the updated target velocity are collected.
+    This process is repeated until $`v^{tar}_{x}`$ reaches the upper limit of the target velocity, $`v^{tar}_{x\,max}`$.
+
+    In `2`, $`v^{tar}_{x}`$ is initially set to 1.2 m/s. 
+    Then, $`v^{tar}_{x}`$ is slightly decreased to $`v^{tar}_{x}-\Delta v_{x}`$ and this process is also repeated until $`v^{tar}_{x}`$ reaches the lower limit of the target velocity, $`v^{tar}_{x\,min}`$. 
+    The initial control parameters are set identically in both situation, which generates steady walking gait of 1.25 m/s.
+3. select `1` or `2` and press Enter
+4. an optimization launch, this process is saved to `reflex_opt/save_data/` as a .pickle file. For example, if you select `1` in the above, you would see the file named `\review_forw_new`, which contains `logger.pickle` and `vel_gen0.pickle`.
+5. you can run several programs in parallel to collect the data set efficiently.
+6. sometimes, the optimization is forced to terminate with the following message:
+   ```
+    "WARNING: Nan, Inf or huge value in QACC at DOF xx. The simulation is unstable. Time = <sim time value>"
+   ```
+   To re-start the optimization from the terminated point, please go to `reflex_opt/opt_forw.py` or `reflex_opt/opt_back.py`.
+   Comment out "previous_data = False", which is around line 469, and make "previous_data = True".
+   Then, please specify folder name that is stored in "/reflex_opt/save_data/~"
 
 # Performence-Weighted Least Square (PWLS) method
 You can find the Python implementation of the PWLS below (those who want to use PWLS shold use this, because codes in the paper maybe messy).
